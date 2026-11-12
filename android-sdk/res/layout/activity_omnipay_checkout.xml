@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/checkout_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/omnipay_background"
+    android:padding="16dp">
+
+    <!-- Top App Bar & Security Badge -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_checkout"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/omnipay_primary"
+        android:elevation="4dp"
+        android:contentDescription="@string/checkout_title"
+        app:title="@string/checkout_title"
+        app:titleTextColor="@color/omnipay_surface"
+        app:navigationIcon="@drawable/ic_card_visa"
+        app:navigationContentDescription="Navigate back from checkout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Offline Resilience Notification Banner (Adaptive / Accessible) -->
+    <LinearLayout
+        android:id="@+id/banner_offline_notice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/omnipay_warning_bg"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:contentDescription="@string/desc_offline_banner"
+        android:importantForAccessibility="yes"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_checkout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/stat_sys_warning"
+            android:contentDescription="Warning Icon"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/offline_mode_warning"
+            android:textColor="@color/omnipay_warning_text"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scroll_checkout_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:contentDescription="Checkout Input Form Scroll Area"
+        app:layout_constraintTop_toBottomOf="@id/banner_offline_notice"
+        app:layout_constraintBottom_toTopOf="@id/card_action_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="24dp">
+
+            <!-- Security Trust Indicator -->
+            <TextView
+                android:id="@+id/tv_security_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/checkout_encryption_badge"
+                android:textColor="@color/omnipay_text_secondary"
+                android:textSize="12sp"
+                android:drawableStart="@android:drawable/ic_lock_lock"
+                android:drawablePadding="6dp"
+                android:contentDescription="Transaction secured with 256 bit end-to-end encryption"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Payment Method Tabs -->
+            <RadioGroup
+                android:id="@+id/rg_payment_method"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:background="@color/omnipay_surface"
+                android:contentDescription="Select Payment Method: Card, Contactless NFC, or QR Code"
+                app:layout_constraintTop_toBottomOf="@id/tv_security_badge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <RadioButton
+                    android:id="@+id/rb_method_card"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/tab_card"
+                    android:gravity="center"
+                    android:minHeight="48dp"
+                    android:contentDescription="Credit or Debit Card Payment Method" />
+
+                <RadioButton
+                    android:id="@+id/rb_method_nfc"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/tab_nfc"
+                    android:gravity="center"
+                    android:minHeight="48dp"
+                    android:contentDescription="Contactless Mobile NFC Payment Method" />
+
+                <RadioButton
+                    android:id="@+id/rb_method_qr"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/tab_qr"
+                    android:gravity="center"
+                    android:minHeight="48dp"
+                    android:contentDescription="EMVCo Digital QR Code Payment Method" />
+            </RadioGroup>
+
+            <!-- Card Number Input Field -->
+            <TextView
+                android:id="@+id/label_card_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/label_card_number"
+                android:textColor="@color/omnipay_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/rg_payment_method"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_card_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                app:boxStrokeColor="@color/omnipay_primary"
+                app:boxBackgroundMode="outline"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_card_visa"
+                app:endIconContentDescription="Detected Card Brand: Visa"
+                app:layout_constraintTop_toBottomOf="@id/label_card_number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_card_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:hint="@string/hint_card_number"
+                    android:inputType="number"
+                    android:maxLength="19"
+                    android:contentDescription="@string/desc_card_number"
+                    android:importantForAccessibility="yes" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Cardholder Name Input Field -->
+            <TextView
+                android:id="@+id/label_cardholder_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/label_cardholder_name"
+                android:textColor="@color/omnipay_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/til_card_number"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cardholder_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                app:boxStrokeColor="@color/omnipay_primary"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintTop_toBottomOf="@id/label_cardholder_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_cardholder_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:hint="@string/hint_cardholder_name"
+                    android:inputType="textCapWords|textPersonName"
+                    android:contentDescription="@string/desc_cardholder_name"
+                    android:importantForAccessibility="yes" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Side-by-Side Expiry and CVV (Adaptive Constraint Horizontal Chain) -->
+            <TextView
+                android:id="@+id/label_expiry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/label_expiry"
+                android:textColor="@color/omnipay_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/til_cardholder_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/label_cvv"
+                app:layout_constraintHorizontal_weight="1" />
+
+            <TextView
+                android:id="@+id/label_cvv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/label_cvv"
+                android:textColor="@color/omnipay_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/label_expiry"
+                app:layout_constraintStart_toEndOf="@id/label_expiry"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_expiry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                app:boxStrokeColor="@color/omnipay_primary"
+                app:boxBackgroundMode="outline"
+                app:layout_constraintTop_toBottomOf="@id/label_expiry"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/til_cvv"
+                app:layout_constraintHorizontal_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_expiry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:hint="@string/hint_expiry"
+                    android:inputType="datetime"
+                    android:maxLength="5"
+                    android:contentDescription="@string/desc_expiry"
+                    android:importantForAccessibility="yes" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cvv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                app:boxStrokeColor="@color/omnipay_primary"
+                app:boxBackgroundMode="outline"
+                app:passwordToggleEnabled="true"
+                app:layout_constraintTop_toBottomOf="@id/label_cvv"
+                app:layout_constraintStart_toEndOf="@id/til_expiry"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_cvv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:hint="@string/hint_cvv"
+                    android:inputType="numberPassword"
+                    android:maxLength="4"
+                    android:contentDescription="@string/desc_cvv"
+                    android:importantForAccessibility="yes" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Bottom Sticky Action Card (Pay Button with WCAG 48dp Touch Target) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_action_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/omnipay_surface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <Button
+                android:id="@+id/btn_pay_now"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:minHeight="48dp"
+                android:text="@string/btn_pay_now"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/omnipay_surface"
+                android:backgroundTint="@color/omnipay_primary"
+                android:contentDescription="@string/desc_btn_pay_now"
+                android:importantForAccessibility="yes" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

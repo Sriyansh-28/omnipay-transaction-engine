@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">OmniPay Mobile</string>
+    <string name="checkout_title">Secure Checkout</string>
+    <string name="checkout_encryption_badge">256-bit SSL Encrypted</string>
+    <string name="tab_card">Card</string>
+    <string name="tab_nfc">NFC Pay</string>
+    <string name="tab_qr">QR Code</string>
+    <string name="label_card_number">Card Number</string>
+    <string name="hint_card_number">4111 2222 3333 4444</string>
+    <string name="desc_card_number">Card Number Input Field. Enter 16 digits.</string>
+    <string name="label_cardholder_name">Cardholder Name</string>
+    <string name="hint_cardholder_name">Jane Doe</string>
+    <string name="desc_cardholder_name">Cardholder Full Name</string>
+    <string name="label_expiry">Expires</string>
+    <string name="hint_expiry">MM/YY</string>
+    <string name="desc_expiry">Expiration Date in Month and Year format</string>
+    <string name="label_cvv">CVV</string>
+    <string name="hint_cvv">123</string>
+    <string name="desc_cvv">3 or 4 digit security code on the back of your card</string>
+    <string name="btn_pay_now">Pay $49.99</string>
+    <string name="desc_btn_pay_now">Submit Payment of 49 dollars and 99 cents</string>
+    <string name="offline_mode_warning">Offline Mode Active — Transactions will securely queue and sync when connected.</string>
+    <string name="desc_offline_banner">Offline network status banner notification</string>
+</resources>

@@ -1,0 +1,13 @@
+<resources>
+    <color name="omnipay_primary">#0D47A1</color>
+    <color name="omnipay_primary_dark">#002171</color>
+    <color name="omnipay_accent">#00C853</color>
+    <color name="omnipay_background">#F8F9FA</color>
+    <color name="omnipay_surface">#FFFFFF</color>
+    <color name="omnipay_text_primary">#212121</color>
+    <color name="omnipay_text_secondary">#757575</color>
+    <color name="omnipay_border">#E0E0E0</color>
+    <color name="omnipay_error">#D32F2F</color>
+    <color name="omnipay_warning_bg">#FFF3E0</color>
+    <color name="omnipay_warning_text">#E65100</color>
+</resources>
